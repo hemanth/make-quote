@@ -1,0 +1,92 @@
+.two_col {
+  width: 960px;
+  margin: 0 0 40px 0;
+  padding: 0;
+}
+
+.two_col .col.left {
+  width: 590px;
+  margin: 0;
+  padding: 0;
+  display: block;
+  vertical-align: top;
+  float: left;
+}
+
+.two_col .col.right {
+  width: 365px;
+  margin: 0;
+  padding: 0;
+  display: block;
+  vertical-align: top;
+  float: right;
+}
+
+
+.two_col .row {
+  width: 335px;
+  margin: 0 11px 10px 0;
+  float: left;
+}
+
+.two_col .row #quote {
+  resize: none;
+  background-color: white;
+  border: 1px solid #c7cccf;
+  width: 315px;
+  height: 188px;
+  margin: 0 0 10px 0;
+  padding: 5px 9px;
+  font: 400 16px 'Open Sans', sans-serif;
+  color: #a9a9ab;
+  line-height: 25px;
+  text-align: center;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  box-shadow: inset 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+}
+
+.two_col .row #quote:focus {
+  color: #2f2b2c;
+}
+
+.two_col .row #quote div{
+  margin: 0;
+  padding: 0;
+  font: 400 16px 'Open Sans', sans-serif;
+  line-height: 25px;
+  text-align: center;
+}
+
+
+.two_col .row input[type="text"] {
+  background-color: white;
+  border: 1px solid #c7cccf;
+  width: 315px;
+  height: 16px;
+  margin: 0 0 10px 0;
+  padding: 5px 9px;
+  font: 400 13px 'Open Sans', sans-serif;
+  color: #2f2b2c;
+  line-height: 16px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  box-shadow: inset 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 0px 1px 1px 0px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+.two_col ul.steps {
+  width: 585px;
+  margin: 0;
+  list-style: none;
+}
+
+.two_col ul.steps li {
+  width: 548px;
+  margin: 0 0 30px 36px;
+  padding: 0;
+}

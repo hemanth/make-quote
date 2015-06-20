@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>
+      Make your own quotes
+    </title>
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <div class="two_col">
+    <div class="col left">
+      <ul class="steps">
+        <li>
+          <div class="row">
+            <textarea name="text" id="quote" placeholder="Your quote">
+            </textarea>
+            <input type="text" id="author" value="" maxlength="60" placeholder="Author name">
+            <div id="quoterror" style="color:#F9365A">
+            </div>
+          </div>
+
+          <div class="clear">
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="col right">
+          <canvas  id="canvas">
+          </canvas>
+      </div>
+    </div>
+    <div class="clear">
+    </div>
+  </div>
+</body>
+
+<script type="text/javascript" src="bquote.js">
+</script>
+
+</html>

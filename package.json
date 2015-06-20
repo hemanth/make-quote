@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "canvas-text-wrapper": "^0.3.2",
+    "clear-canvas": "^1.0.3",
+    "rx": "^2.5.3"
+  },
+  "script": {
+    "browserify": "browserify quote.js > bquote.js"
+  }
+}
