@@ -7,7 +7,7 @@ This makes use of `rxjs` and some canvas magic.
 
 #### GIF FTW!
 
-[gif](./mq.gif)
+![gif](./mq.gif)
 
 __TODO:__
 
