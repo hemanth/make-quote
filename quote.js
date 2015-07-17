@@ -23,7 +23,7 @@ var authorSource = Rx.Observable.fromEvent(author, 'keyup');
 var quoteSubscription = quoteSource.subscribe(
 	function(x) {
 		clear(context);
-		CanvasTextWrapper(canvas, x.currentTarget.value, {
+		CanvasTextWrapper(canvas, x.currentTarget.value + '\n' + author.value, {
 			font: "bold 40px Arial, sans-serif",
 			textAlign: "center",
 			verticalAlign: "middle",

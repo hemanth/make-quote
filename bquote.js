@@ -1,96 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = setTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            currentQueue[queueIndex].run();
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    clearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],2:[function(require,module,exports){
 /*! CanvasTextWrapper
  *  https://github.com/namniak/CanvasTextWrapper
  *  Version:  0.3.0
@@ -98,7 +6,7 @@ process.umask = function() { return 0; };
  *  Copyright (c) 2014 Vadim Namniak
  */
 !function(){"use strict";var a,b,c,d,e={font:"18px Arial, sans-serif",sizeToFill:!1,lineHeight:1,allowNewLine:!0,lineBreak:"auto",textAlign:"left",verticalAlign:"top",justifyLines:!1,paddingX:0,paddingY:0,fitParent:!1,strokeText:!1},f=function(g,h,i){if(!(this instanceof f))return new f(g,h,i);this.canvas=g,this.text=h,this.context=this.canvas.getContext("2d"),this.context.font=this.font,this.context.textBaseline="bottom";for(var j in e)e.hasOwnProperty(j)&&(this[j]=i&&i[j]?i[j]:e[j]);a=this.fitParent===!1?this.canvas.width:this.canvas.parentNode.clientWidth,b=this.fitParent===!1?this.canvas.height:this.canvas.parentNode.clientHeight,c=a-2*this.paddingX,d=b-2*this.paddingY,this._init()};f.prototype={_init:function(){this.fontSize=this.font.match(/\d+(px|em|\%)/g)?+this.font.match(/\d+(px|em|\%)/g)[0].match(/\d+/g):18,this.textBlockHeight=0,this.lines=[],this.newLineIndexes=[],this.textPos={x:0,y:0},this._setFont(this.fontSize),this._setLineHeight(),this._validate(),this._render()},_render:function(){if(this.sizeToFill){var a=this.text.trim().split(/\s+/).length,b=0;do this._setFont(++b),this.lineHeight=this.fontSize,this._wrap();while(this.textBlockHeight<d&&this.lines.join(" ").split(/\s+/).length==a);this._setFont(--b),this.lineHeight=this.fontSize}else this._wrap();this.justifyLines&&"auto"===this.lineBreak&&this._justify(),this._setAlignY(),this._drawText()},_setFont:function(a){var b=this.sizeToFill?this.context.font.split(/\b\d+px\b/i):this.font.split(/\b\d+px\b/i);this.context.font=b[0]+a+"px"+b[1],this.fontSize=a},_setLineHeight:function(){isNaN(this.lineHeight)?-1!==this.lineHeight.toString().indexOf("px")?this.lineHeight=parseInt(this.lineHeight):-1!==this.lineHeight.toString().indexOf("%")&&(this.lineHeight=parseInt(this.lineHeight)/100*this.fontSize):this.lineHeight=this.fontSize*this.lineHeight},_wrap:function(){if(this.allowNewLine)for(var a=this.text.trim().split("\n"),b=0,c=0;b<a.length-1;b++)c+=a[b].trim().split(/\s+/).length,this.newLineIndexes.push(c);var d=this.text.trim().split(/\s+/);this._checkLength(d),this._breakText(d),this.textBlockHeight=this.lines.length*this.lineHeight},_checkLength:function(a){for(var b,d,e,f,g=0;g<a.length;g++)if(b="",d=this.context.measureText(a[g]).width,d>c){for(var h=0;this.context.measureText(b+a[g][h]).width<=c&&h<a[g].length;h++)b+=a[g][h];e=a[g].slice(0,h),f=a[g].slice(h),a.splice(g,1,e,f)}},_breakText:function(a){for(var b=0,d=0;b<a.length;d++)if(this.lines[d]="","auto"===this.lineBreak){for(;this.context.measureText(this.lines[d]+a[b]).width<=c&&b<a.length;)if(this.lines[d]+=a[b]+" ",b++,this.allowNewLine)for(var e=0;e<this.newLineIndexes.length;e++)if(this.newLineIndexes[e]===b){d++,this.lines[d]="";break}this.lines[d]=this.lines[d].trim()}else this.lines[d]=a[b],b++},_justify:function(){for(var a,b,c,d=0;d<this.lines.length;d++)c=this.context.measureText(this.lines[d]).width,(!a||c>a)&&(a=c,b=d);var e,f,g,h,i,j=" ";for(d=0;d<this.lines.length;d++)if(d!==b&&(e=this.lines[d].trim().split(/\s+/).length,!(1>=e))){this.lines[d]=this.lines[d].trim().split(/\s+/).join(j),f=this.context.measureText(j).width,g=(a-this.context.measureText(this.lines[d]).width)/f,h=g/(e-1),i="";for(var k=0;h>k;k++)i+=j;this.lines[d]=this.lines[d].trim().split(j).join(i)}},_drawText:function(){for(var a=0;a<this.lines.length;a++)this._setAlignX(this.lines[a]),this.textPos.y=parseInt(this.textPos.y)+this.lineHeight,this.context.fillText(this.lines[a],this.textPos.x,this.textPos.y),this.strokeText&&this.context.strokeText(this.lines[a],this.textPos.x,this.textPos.y)},_setAlignX:function(b){"center"==this.textAlign?this.textPos.x=(a-this.context.measureText(b).width)/2:"right"==this.textAlign?this.textPos.x=a-this.context.measureText(b).width-this.paddingX:this.textPos.x=this.paddingX},_setAlignY:function(){"middle"==this.verticalAlign?this.textPos.y=(b-this.textBlockHeight)/2:"bottom"==this.verticalAlign?this.textPos.y=b-this.textBlockHeight-this.paddingY:this.textPos.y=this.paddingY},_validate:function(){if(!(this.canvas instanceof HTMLCanvasElement))throw new TypeError("The first parameter must be an instance of HTMLCanvasElement.");if("string"!=typeof this.text)throw new TypeError("The second parameter must be a string.");if(isNaN(this.fontSize))throw new TypeError('Cannot parse "font".');if(isNaN(this.lineHeight))throw new TypeError('Cannot parse "lineHeight".');if("left"!==this.textAlign.toLocaleLowerCase()&&"center"!==this.textAlign.toLocaleLowerCase()&&"right"!==this.textAlign.toLocaleLowerCase())throw new TypeError('Property "textAlign" must be set to either "left", "center", or "right".');if("top"!==this.verticalAlign.toLocaleLowerCase()&&"middle"!==this.verticalAlign.toLocaleLowerCase()&&"bottom"!==this.verticalAlign.toLocaleLowerCase())throw new TypeError('Property "verticalAlign" must be set to either "top", "middle", or "bottom".');if("boolean"!=typeof this.justifyLines)throw new TypeError('Property "justifyLines" must be set to a Boolean.');if(isNaN(this.paddingX))throw new TypeError('Property "paddingX" must be set to a Number.');if(isNaN(this.paddingY))throw new TypeError('Property "paddingY" must be set to a Number.');if("boolean"!=typeof this.fitParent)throw new TypeError('Property "fitParent" must be set to a Boolean.');if("auto"!==this.lineBreak.toLocaleLowerCase()&&"word"!==this.lineBreak.toLocaleLowerCase())throw new TypeError('Property "lineBreak" must be set to either "auto" or "word".');if("boolean"!=typeof this.sizeToFill)throw new TypeError('Property "sizeToFill" must be set to a Boolean.');if("boolean"!=typeof this.strokeText)throw new TypeError('Property "strokeText" must be set to a Boolean.')}},window.CanvasTextWrapper=f}();
-},{}],3:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 "use strict";
 
 module.exports = function (ctx) {
@@ -114,7 +22,7 @@ module.exports = function (ctx) {
     ctx.restore();
   }
 };
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 (function (process,global){
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See License.txt in the project root for license information.
 
@@ -10841,7 +10749,7 @@ module.exports = function (ctx) {
 }.call(this));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":1}],5:[function(require,module,exports){
+},{"_process":5}],4:[function(require,module,exports){
 var wrapText = require('canvas-text-wrapper');
 var Rx = require('rx');
 var clear = require('clear-canvas');
@@ -10872,8 +10780,8 @@ var quoteSubscription = quoteSource.subscribe(
 			textAlign: "center",
 			verticalAlign: "middle",
 			sizeToFill: true,
-			paddingX: 10,
-			paddingY: 10,
+			paddingX: 5,
+			paddingY: 5,
 		});
 	},
 	function(err) {
@@ -10891,8 +10799,8 @@ var authorSubscription = authorSource.subscribe(
 			textAlign: "center",
 			verticalAlign: "middle",
 			sizeToFill: true,
-			paddingX: 10,
-			paddingY: 10,
+			paddingX: 5,
+			paddingY: 5,
 		});
 	},
 	function(err) {
@@ -10902,4 +10810,96 @@ var authorSubscription = authorSource.subscribe(
 		console.log('Completed');
 	});
 
-},{"canvas-text-wrapper":2,"clear-canvas":3,"rx":4}]},{},[5]);
+},{"canvas-text-wrapper":1,"clear-canvas":2,"rx":3}],5:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            currentQueue[queueIndex].run();
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}]},{},[4]);
