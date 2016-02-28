@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "canvas-text-wrapper": "^0.7.0",
+    "canvas-text-wrapper": "^0.8.1",
     "clear-canvas": "^1.0.3",
     "rx": "^4.0.8"
   },
