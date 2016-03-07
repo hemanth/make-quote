@@ -2,7 +2,7 @@
   "dependencies": {
     "canvas-text-wrapper": "^0.8.2",
     "clear-canvas": "^1.0.3",
-    "rx": "^4.0.8"
+    "rx": "^4.1.0"
   },
   "scripts": {
     "browserify": "browserify quote.js > bquote.js"
