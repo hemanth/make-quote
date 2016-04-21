@@ -1,4 +1,4 @@
-var wrapText = require('canvas-text-wrapper');
+var CanvasTextWrapper = require('canvas-text-wrapper').CanvasTextWrapper;
 var Rx = require('rx');
 var clear = require('clear-canvas');
 
@@ -10,7 +10,7 @@ canvas.style.background = '#542B72';
 
 var context = canvas.getContext('2d');
 context.lineWidth = 2;
-context.fillStyle = 'white'
+context.fillStyle = 'white';
 
 
 
@@ -23,6 +23,9 @@ var authorSource = Rx.Observable.fromEvent(author, 'keyup');
 var quoteSubscription = quoteSource.subscribe(
 	function(x) {
 		clear(context);
+		canvas.width = 400;
+		canvas.height = 400;
+		context.fillStyle = 'white';
 		CanvasTextWrapper(canvas, x.currentTarget.value + '\n' + author.value, {
 			font: "bold 40px Arial, sans-serif",
 			textAlign: "center",
@@ -42,6 +45,9 @@ var quoteSubscription = quoteSource.subscribe(
 var authorSubscription = authorSource.subscribe(
 	function(x) {
 		clear(context);
+		canvas.width = 400;
+		canvas.height = 400;
+		context.fillStyle = 'white';
 		CanvasTextWrapper(canvas, quote.value + '\n' + x.currentTarget.value, {
 			font: "bold 40px Arial, sans-serif",
 			textAlign: "center",
