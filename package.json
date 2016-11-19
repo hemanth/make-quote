@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "canvas-text-wrapper": "^0.9.2",
-    "clear-canvas": "^1.0.3",
+    "clear-canvas": "^1.0.4",
     "rx": "^4.0.8"
   },
   "scripts": {
